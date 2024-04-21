@@ -1,6 +1,9 @@
+import { Box, Grid, GridItem } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+
+import Header from "./components/Header";
+import ChakraTheme from "./theme/themeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +18,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang='pt-br'>
+      <body className={inter.className}>
+        <ChakraTheme>
+          <Grid
+            templateAreas={`
+              "header header"
+              "nav bread"
+              "nav main"
+              `}
+            gap={4}
+          >
+            <GridItem area='header'>
+              <Header />
+            </GridItem>
+            <GridItem
+              p={4}
+              colSpan={2}
+              area='main'
+              display={"flex"}
+              justifyContent='center'
+            >
+              <Box width='100%' maxW='1200px'>
+                {children}
+              </Box>
+            </GridItem>
+          </Grid>
+        </ChakraTheme>
+      </body>
     </html>
   );
 }
