@@ -1,20 +1,29 @@
-// Header component
 "use client";
 
-import React from "react";
-
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Link,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Link, Stack } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const Header = () => {
+export default function Header() {
+  const router = useRouter();
+  const [authToken, setAuthToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    setAuthToken(
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("auth_token=")) ?? null
+    );
+  }, [authToken]);
+
+  function logout() {
+    document.cookie =
+      "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    router.push("/login");
+  }
+
   return (
     <Flex
       as='nav'
@@ -47,20 +56,13 @@ const Header = () => {
         </Link>
       </Stack>
 
-      <Box
-      // display={{ base: isOpen ? "block" : "none" }}
-      // mt={{ base: 4, md: 0 }}
-      >
-        <Button
-          variant='solid'
-
-          // _hover={{ bg: "teal.700", borderColor: "teal.700" }}
-        >
-          Login
-        </Button>
-      </Box>
+      {authToken && (
+        <Box>
+          <Button onClick={() => logout()} variant='solid'>
+            Logout
+          </Button>
+        </Box>
+      )}
     </Flex>
   );
-};
-
-export default Header;
+}

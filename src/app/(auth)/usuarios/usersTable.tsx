@@ -20,9 +20,16 @@ import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 
 import { User } from "@/app/services/users/types";
+import { useEffect, useState } from "react";
 
 export default function UsersTable({ users }: Readonly<{ users: User[] }>) {
   const { push } = useRouter();
+
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   function tableData() {
     return users.map(({ id, username, email, created_at, is_active }) => (
@@ -77,31 +84,38 @@ export default function UsersTable({ users }: Readonly<{ users: User[] }>) {
   }
 
   return (
-    <Box>
-      <Box display='flex' justifyContent='flex-end'>
-        <Button
+    isClient && (
+      <Box>
+        <Box display='flex' justifyContent='flex-end'>
+          <Button
+            margin='8px 0'
+            colorScheme='green'
+            onClick={() => push(`/usuarios/criar`)}
+          >
+            Novo usuário
+          </Button>
+        </Box>
+        <Box
           margin='8px 0'
-          colorScheme='green'
-          onClick={() => push(`/usuarios/criar`)}
+          border='1px'
+          borderColor='gray.200'
+          borderRadius='lg'
         >
-          Novo usuário
-        </Button>
+          <TableContainer>
+            <Table variant='simple'>
+              <Thead>
+                <Tr>
+                  <Th>Usuário</Th>
+                  <Th display={{ base: "none", md: "table-cell" }}>Email</Th>
+                  <Th display={{ base: "none", md: "table-cell" }}>Status</Th>
+                  <Th>Ações</Th>
+                </Tr>
+              </Thead>
+              <Tbody>{tableData()}</Tbody>
+            </Table>
+          </TableContainer>
+        </Box>
       </Box>
-      <Box margin='8px 0' border='1px' borderColor='gray.200' borderRadius='lg'>
-        <TableContainer>
-          <Table variant='simple'>
-            <Thead>
-              <Tr>
-                <Th>Usuário</Th>
-                <Th display={{ base: "none", md: "table-cell" }}>Email</Th>
-                <Th display={{ base: "none", md: "table-cell" }}>Status</Th>
-                <Th>Ações</Th>
-              </Tr>
-            </Thead>
-            <Tbody>{tableData()}</Tbody>
-          </Table>
-        </TableContainer>
-      </Box>
-    </Box>
+    )
   );
 }

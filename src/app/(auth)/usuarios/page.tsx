@@ -3,14 +3,12 @@ import { Box } from "@chakra-ui/react";
 import getUsers from "@/app/services/users/getAllUsers";
 import UsersTable from "./usersTable";
 
-const UsersPage = async () => {
+export default async function UsersPage() {
   const { users } = await getUsers();
 
   return (
-    <Box >
+    <Box>
       <UsersTable users={users} />
     </Box>
   );
-};
-
-export default UsersPage;
+}

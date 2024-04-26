@@ -24,6 +24,7 @@ export async function POST(request: Request) {
   cookies().set("auth_token", token, {
     // Expires in 1 day
     expires: new Date(Date.now() + 86400 * 1000),
+    sameSite: "strict",
   });
 
   return new Response("", {
