@@ -1,4 +1,6 @@
-import { DEFAULT_OPTIONS } from "../defaultOptions";
+"use client";
+
+import { clientHeaders } from "../clientHeaders";
 import { EditUser } from "./types";
 
 interface UpdateUserProps {
@@ -12,10 +14,7 @@ export default async function updateUser({ id, user }: UpdateUserProps) {
     {
       method: "PUT",
       body: JSON.stringify(user),
-      headers: {
-        "Content-Type": "application/json",
-        ...DEFAULT_OPTIONS.headers,
-      },
+      headers: clientHeaders,
     }
   );
 

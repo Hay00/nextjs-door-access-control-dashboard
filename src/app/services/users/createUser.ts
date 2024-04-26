@@ -1,4 +1,6 @@
-import { DEFAULT_OPTIONS } from "../defaultOptions";
+"use client";
+
+import { clientHeaders } from "../clientHeaders";
 import { CreateUser } from "./types";
 
 export default async function createUser(user: CreateUser) {
@@ -6,10 +8,7 @@ export default async function createUser(user: CreateUser) {
     `${process.env.NEXT_PUBLIC_GCA_DOOR_API_BASE_URL}/user`,
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...DEFAULT_OPTIONS.headers,
-      },
+      headers: clientHeaders,
       body: JSON.stringify(user),
     }
   );

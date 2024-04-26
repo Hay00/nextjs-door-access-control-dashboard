@@ -1,4 +1,6 @@
-import { DEFAULT_OPTIONS } from "../defaultOptions";
+"use client";
+
+import { clientHeaders } from "../clientHeaders";
 import { EditAccess } from "./types";
 
 export default async function updateAccess(
@@ -10,10 +12,7 @@ export default async function updateAccess(
     `${process.env.NEXT_PUBLIC_GCA_DOOR_API_BASE_URL}/user/${user_id}/user-access/${day_id}`,
     {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        ...DEFAULT_OPTIONS.headers,
-      },
+      headers: clientHeaders,
       body: JSON.stringify(access),
     }
   );

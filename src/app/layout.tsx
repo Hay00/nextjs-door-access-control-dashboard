@@ -33,7 +33,7 @@ export default function RootLayout({
               <Header />
             </GridItem>
             <GridItem
-              p={4}
+              padding={{ base: 0, md: 4 }}
               colSpan={2}
               area='main'
               display={"flex"}
